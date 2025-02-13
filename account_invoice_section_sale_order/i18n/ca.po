@@ -18,43 +18,43 @@ msgstr ""
 #. module: account_invoice_section_sale_order
 #: model:ir.model,name:account_invoice_section_sale_order.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajustos de configuració"
 
 #. module: account_invoice_section_sale_order
 #: model:ir.model.fields,help:account_invoice_section_sale_order.field_res_config_settings__show_client_order_ref_in_invoice
 msgid ""
 "If enabled, the client's reference from the sale order will be included in "
 "the invoice section title."
-msgstr ""
+msgstr "Si està habilitat, la referència del client de la comanda de venda s'inclourà al títol de la secció de la factura."
 
 #. module: account_invoice_section_sale_order
 #: model:ir.model.fields,help:account_invoice_section_sale_order.field_res_config_settings__show_sale_order_date_in_invoice
 msgid ""
 "If enabled, the sale order date will be included in the invoice section "
 "title."
-msgstr ""
+msgstr "Si està habilitat, la data de la comanda de venda s'inclourà al títol de la secció de la factura."
 
 #. module: account_invoice_section_sale_order
 #: model:ir.model,name:account_invoice_section_sale_order.model_sale_order
 msgid "Sales Order"
-msgstr ""
+msgstr "Comanda de venda"
 
 #. module: account_invoice_section_sale_order
 #: model:ir.model.fields,field_description:account_invoice_section_sale_order.field_res_config_settings__show_client_order_ref_in_invoice
 msgid "Show Client Reference in Invoice Section"
-msgstr ""
+msgstr "Mostrar la referència del client a la secció de la factura"
 
 #. module: account_invoice_section_sale_order
 #: model:ir.model.fields,field_description:account_invoice_section_sale_order.field_res_config_settings__show_sale_order_date_in_invoice
 msgid "Show Sale Order Date in Invoice Section"
-msgstr ""
+msgstr "Mostrar la data de la comanda de venda a la secció de la factura"
 
 #. module: account_invoice_section_sale_order
 #: model_terms:ir.ui.view,arch_db:account_invoice_section_sale_order.res_config_settings_view_form
 msgid "Show the client reference in the invoice section name."
-msgstr ""
+msgstr "Mostrar la referència del client al nom de la secció de la factura."
 
 #. module: account_invoice_section_sale_order
 #: model_terms:ir.ui.view,arch_db:account_invoice_section_sale_order.res_config_settings_view_form
 msgid "Show the sale order date in the invoice section name."
-msgstr ""
+msgstr "Mostrar la data de la comanda de venda al nom de la secció de la factura."

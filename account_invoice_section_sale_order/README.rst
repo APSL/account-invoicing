@@ -68,6 +68,9 @@ Contributors
   * Hiep Nguyen Hoang <hiepnh@trobz.com>
   * Jeroen Evens <jeroen.evens@dynapps.be>
 
+* `APSL-Nagarro <https://www.apsl.tech>`_:
+  * Patryk Pyczko <ppyczko@apsl.net>
+
 Other credits
 ~~~~~~~~~~~~~
 

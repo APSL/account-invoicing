@@ -1,7 +1,7 @@
 # Copyright 2020 Camptocamp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    "name": "Acccount Invoice Section Sale Order",
+    "name": "Account Invoice Section Sale Order",
     "version": "15.0.1.0.2",
     "summary": "For invoices targetting multiple sale order add"
     "sections with sale order name.",
@@ -10,4 +10,5 @@
     "license": "AGPL-3",
     "category": "Accounting & Finance",
     "depends": ["account", "sale"],
+    "data": ["views/res_config_settings.xml"],
 }

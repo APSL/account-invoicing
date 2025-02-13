@@ -77,16 +77,8 @@ class TestInvoiceGroupBySaleOrder(TransactionCase):
         )
         cls.order2_p1.action_confirm()
 
-    def test_create_invoice(self):
-        """Check invoice is generated  with sale order sections."""
-        result = {
-            0: "".join([self.order1_p1.name, " - ", self.order1_p1.client_order_ref]),
-            1: "order 1 line 1",
-            2: "order 1 line 2",
-            3: self.order2_p1.name,
-            4: "order 2 line 1",
-            5: "order 2 line 2",
-        }
+    def _create_and_validate_invoice(self, expected_result):
+        """Helper method to create invoices and validate section names."""
         invoice_ids = (self.order1_p1 + self.order2_p1)._create_invoices()
         lines = (
             invoice_ids[0]
@@ -94,15 +86,84 @@ class TestInvoiceGroupBySaleOrder(TransactionCase):
             .filtered(lambda r: not r.exclude_from_invoice_tab)
         )
         for idx, line in enumerate(lines):
-            self.assertEqual(line.name, result[idx])
+            self.assertEqual(line.name, expected_result[idx])
+
+    def test_create_invoice_without_ref_and_date(self):
+        """Test invoice section names when neither reference nor date are enabled."""
+        expected_result = {
+            0: self.order1_p1.name,
+            1: "order 1 line 1",
+            2: "order 1 line 2",
+            3: self.order2_p1.name,
+            4: "order 2 line 1",
+            5: "order 2 line 2",
+        }
+        self._create_and_validate_invoice(expected_result)
+
+    def test_create_invoice_with_ref(self):
+        """Test invoice section names when only the client reference is enabled."""
+        self.env["ir.config_parameter"].set_param(
+            "sale.show_client_order_ref_in_invoice", True
+        )
+        expected_result = {
+            0: f"{self.order1_p1.name} - {self.order1_p1.client_order_ref}",
+            1: "order 1 line 1",
+            2: "order 1 line 2",
+            3: self.order2_p1.name,
+            4: "order 2 line 1",
+            5: "order 2 line 2",
+        }
+        self._create_and_validate_invoice(expected_result)
+
+    def test_create_invoice_with_date(self):
+        """Test invoice section names when only the sale order date is enabled."""
+        self.env["ir.config_parameter"].set_param(
+            "sale.show_sale_order_date_in_invoice", True
+        )
+        expected_result = {
+            0: (
+                f"{self.order1_p1.name} - "
+                f"{self.order1_p1.date_order.date().strftime('%d/%m/%Y')}"
+            ),
+            1: "order 1 line 1",
+            2: "order 1 line 2",
+            3: (
+                f"{self.order2_p1.name} - "
+                f"{self.order2_p1.date_order.date().strftime('%d/%m/%Y')}"
+            ),
+            4: "order 2 line 1",
+            5: "order 2 line 2",
+        }
+        self._create_and_validate_invoice(expected_result)
+
+    def test_create_invoice_with_ref_and_date(self):
+        """Test invoice section names when both reference and date are enabled."""
+        self.env["ir.config_parameter"].set_param(
+            "sale.show_sale_order_date_in_invoice", True
+        )
+        self.env["ir.config_parameter"].set_param(
+            "sale.show_client_order_ref_in_invoice", True
+        )
+        expected_result = {
+            0: (
+                f"{self.order1_p1.name} - "
+                f"{self.order1_p1.client_order_ref} - "
+                f"{self.order1_p1.date_order.date().strftime('%d/%m/%Y')}"
+            ),
+            1: "order 1 line 1",
+            2: "order 1 line 2",
+            3: (
+                f"{self.order2_p1.name} - "
+                f"{self.order2_p1.date_order.date().strftime('%d/%m/%Y')}"
+            ),
+            4: "order 2 line 1",
+            5: "order 2 line 2",
+        }
+        self._create_and_validate_invoice(expected_result)
 
     def test_create_invoice_no_section(self):
-        """Check invoice for only one sale order
-
-        No need to create sections
-
-        """
-        invoice_id = (self.order1_p1)._create_invoices()
+        """Test that no section is created when invoicing a single sale order."""
+        invoice_id = self.order1_p1._create_invoices()
         line_sections = invoice_id.line_ids.filtered(
             lambda r: r.display_type == "line_section"
         )

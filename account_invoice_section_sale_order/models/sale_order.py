@@ -54,7 +54,16 @@ class SaleOrder(models.Model):
     def _get_saleorder_section_name(self):
         """Returns the text for the section name."""
         self.ensure_one()
-        if self.client_order_ref:
-            return "{} - {}".format(self.name, self.client_order_ref or "")
-        else:
-            return self.name
+        config = self.env["ir.config_parameter"].sudo()
+        show_date = config.get_param("sale.show_sale_order_date_in_invoice", False)
+        show_client_ref = config.get_param(
+            "sale.show_client_order_ref_in_invoice", False
+        )
+
+        parts = [self.name]
+        if show_client_ref and self.client_order_ref:
+            parts.append(self.client_order_ref)
+        if show_date and self.date_order:
+            parts.append(self.date_order.date().strftime("%d/%m/%Y"))
+
+        return " - ".join(parts)
